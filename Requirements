@@ -1,0 +1,5 @@
+numpy>=1.24
+opencv-python>=4.8
+matplotlib>=3.7
+scipy>=1.10
+pyserial>=3.5   # only needed for ServoGimbal (real hardware)
