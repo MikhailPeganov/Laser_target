@@ -20,6 +20,7 @@ run calibrate_camera() once, and keep every interlock enabled.
 """
 
 import math
+import os
 import time
 from dataclasses import dataclass, field
 
@@ -472,8 +473,10 @@ def report(cam, laser, safe, log, cfg):
     ax.set_xlabel("time (s)"); ax.set_ylabel("degrees"); ax.legend(fontsize=8)
 
     plt.tight_layout()
-    plt.savefig("/home/claude/mc_options/mosquito_targeting.png", dpi=130)
-    print("\nChart saved to mosquito_targeting.png")
+    out_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs")
+    os.makedirs(out_dir, exist_ok=True)
+    plt.savefig(os.path.join(out_dir, "mosquito_targeting.png"), dpi=130)
+    print("\nChart saved to docs/mosquito_targeting.png")
 
 
 if __name__ == "__main__":
