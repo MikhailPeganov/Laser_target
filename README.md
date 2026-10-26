@@ -1,9 +1,10 @@
-# Laser_target
 # Mosquito Laser Targeting System
 
 A detect → track → predict → aim → fire pipeline for identifying and neutralising
 mosquitoes with a laser, built with a hardware abstraction layer so the exact
 same control code runs against a simulation or real camera/gimbal/laser hardware.
+
+![Camera view with track and predicted aim point, prediction error, gimbal response, and aim error with pulses fired](docs/mosquito_targeting.png)
 
 
 ## Why this project
@@ -41,7 +42,7 @@ prediction, actuator control, and safety-critical interlocks.
 | Mean prediction error | ~15.6 px |
 | Mean aim error when firing | 0.17° |
 | Pulses fired / 10s run | 13 |
-| Shots fired while a person was in frame | 0 / 0 |
+| Shots fired while a person was in frame | 0 (person in frame for 186 of 600 frames) |
 
 ## Running it
 
@@ -50,7 +51,7 @@ pip install -r requirements.txt
 python src/mosquito_targeting.py
 ```
 
-Runs in simulation mode by default (`MODE = "sim"` in `config.py`) — a synthetic
+Runs in simulation mode by default (`MODE = "sim"` at the top of `src/mosquito_targeting.py`) — a synthetic
 camera generates an erratically flying target and, at intervals, a large
 "person" object to test the safety interlock. Output is a console report plus
 `docs/mosquito_targeting.png`.
@@ -65,7 +66,7 @@ The hardware layer is already abstracted behind matching interfaces:
 | Gimbal | `SimGimbal` (slew-limited model) | `ServoGimbal` (serial → Arduino, `P<pan>,T<tilt>`) |
 | Laser | `SimLaser` (logs pulses) | `GPIOLaser` (Raspberry Pi GPIO → MOSFET driver) |
 
-To go real: set `MODE = "real"` in `config.py`, wire up the hardware, run a
+To go real: set `MODE = "real"` at the top of `src/mosquito_targeting.py`, wire up the hardware, run a
 one-time camera/laser offset calibration (see `Aimer.pan_offset_deg` /
 `tilt_offset_deg`), and keep every safety interlock enabled.
 
@@ -92,3 +93,11 @@ one-time camera/laser offset calibration (see `Aimer.pan_offset_deg` /
 Python, OpenCV, NumPy, Matplotlib. Kalman filtering implemented from first
 principles (no `filterpy` dependency) to keep the state estimation logic
 fully visible.
+
+## License
+
+MIT, see `LICENSE`.
+
+## Author
+
+Mikhail Peganov — BSc Artificial Intelligence, King's College London
